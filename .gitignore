@@ -1,0 +1,4 @@
+bin/
+elf/
+obj/
+*.a
