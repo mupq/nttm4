@@ -26,3 +26,20 @@ Running `make` will produce the binaries `bin/{test, speed, stack}_kyber{512,768
 **Version**
 - `round1` implements Kyber compatible with the [first round NIST submission](https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/round-1/submissions/CRYSTALS_Kyber.zip)
 - `round2` implements Kyber compatibl with the [second round NIST submission](https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/round-2/submissions/CRYSTALS-Kyber-Round2.zip) (i.e., no public key compression, ciphertext in NTT domain, `q=3329`, `eta=2`, different NTT)
+
+# Results
+
+The following tables contain the results of Table 2 and Table 3 of the paper and were obtained with `arm-none-eabi-gcc 8.3.0`. 
+
+## Speed [clock cycles]
+
+| parameter set | version | KeyGen | Encaps | Decaps |
+| ------------- | ------- | ------ | ------ | ------ | 
+| kyber512      | Round 1 | 575k   | 763k   | 730k   |
+| kyber512      | Round 2 | 499k   | 634k   | 597k   |
+| kyber768      | Round 1 | 946k   | 1167k  | 1117k  |
+| kyber768      | Round 2 | 947k   | 1113k  | 1059k  |
+| kyber1024     | Round 1 | 1483k  | 1753k  | 1698k  |
+| kyber1024     | Round 2 | 1525k  | 1732k  | 1653k  |
+
+##  Stack [bytes]
