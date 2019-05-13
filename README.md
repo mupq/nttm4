@@ -1,5 +1,7 @@
 # nttm4
-This code package contains the software accompanying the paper "Memory-Efficient High-Speed Implementation of Kyber on Cortex-M4". The paper is available at XXX
+This code package contains the software accompanying the paper "Memory-Efficient High-Speed Implementation of Kyber on Cortex-M4". The paper is available at https://kannwischer.eu/papers/2019_nttm4.pdf. 
+
+It has also been merged into [**pqm4**](https://github.com/mupq/pqm4) by https://github.com/mupq/pqm4/pull/80
 
 # Setup 
 
