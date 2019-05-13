@@ -114,7 +114,7 @@ void indcpa_keypair(unsigned char *pk, unsigned char *sk) {
 *              - const unsigned char *coin: pointer to input random coins used as seed (of length KYBER_SYMBYTES bytes)
 *                                           to deterministically generate all randomness
 **************************************************/
-void poly_packcompress(unsigned char *r, poly *a) {
+static void poly_packcompress(unsigned char *r, poly *a) {
     int j, k;
 
     poly_csubq(a);
@@ -210,7 +210,7 @@ void indcpa_enc(unsigned char *c,
     poly_compress(c + KYBER_POLYVECCOMPRESSEDBYTES, v);
 }
 
-int cmp_poly_compress(const unsigned char *r, poly *a) {
+static int cmp_poly_compress(const unsigned char *r, poly *a) {
     unsigned char rc = 0;
     uint8_t t[8];
     int i, j, k = 0;
@@ -258,7 +258,7 @@ int cmp_poly_compress(const unsigned char *r, poly *a) {
     #endif
     return rc;
 }
-int cmp_poly_packcompress(const unsigned char *r, poly *a) {
+static int cmp_poly_packcompress(const unsigned char *r, poly *a) {
     unsigned char rc = 0;
     int j, k;
 
@@ -306,7 +306,7 @@ int indcpa_enc_cmp(const unsigned char *c,
                                        const unsigned char *m,
                                        const unsigned char *pk,
                                        const unsigned char *coins) {
-    unsigned char rc;
+    unsigned char rc = 0;
     polyvec sp;
     poly bp;
     poly *pkp = &bp;
@@ -370,7 +370,7 @@ int indcpa_enc_cmp(const unsigned char *c,
 *              - const unsigned char *c:  pointer to input ciphertext (of length KYBER_INDCPA_BYTES)
 *              - const unsigned char *sk: pointer to input secret key (of length KYBER_INDCPA_SECRETKEYBYTES)
 **************************************************/
-void poly_unpackdecompress(poly *r, const unsigned char *a)
+static void poly_unpackdecompress(poly *r, const unsigned char *a)
 {
   int j;
 #if (KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 352))

@@ -135,15 +135,3 @@ void basemul(int16_t r[2], const int16_t a[2], const int16_t b[2], int16_t zeta)
     r[1]  = fqmul(a[0], b[1]);
     r[1] += fqmul(a[1], b[0]);
 }
-
-void basemul_acc(int16_t r[2], const int16_t a[2], const int16_t b[2], int16_t zeta) {
-    int16_t tmp[2];
-    tmp[0]  = fqmul(a[1], b[1]);
-    tmp[0]  = fqmul(tmp[0], zeta);
-    tmp[0] += fqmul(a[0], b[0]);
-
-    tmp[1]  = fqmul(a[0], b[1]);
-    tmp[1] += fqmul(a[1], b[0]);
-    r[0] += tmp[0];
-    r[1] += tmp[1];
-}
