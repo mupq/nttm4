@@ -43,3 +43,11 @@ The following tables contain the results of Table 2 and Table 3 of the paper and
 | kyber1024     | Round 2 | 1525k  | 1732k  | 1653k  |
 
 ##  Stack [bytes]
+| parameter set | version | KeyGen | Encaps | Decaps |
+| ------------- | ------- | ------ | ------ | ------ | 
+| kyber512      | Round 1 | 2632   | 2672   | 2736   |
+| kyber512      | Round 2 | 3136   | 2720   | 2744   |  
+| kyber768      | Round 1 | 3072   | 3120   | 3176   |   
+| kyber768      | Round 2 | 3648   | 3232   | 3248   |
+| kyber1024     | Round 1 | 3520   | 3568   | 3624   |  
+| kyber1024     | Round 2 | 4160   | 3752   | 3776   |  
