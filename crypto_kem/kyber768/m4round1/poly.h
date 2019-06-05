@@ -15,6 +15,8 @@ typedef struct{
 void poly_compress(unsigned char *r, const poly *a);
 void poly_decompress(poly *r, const unsigned char *a);
 
+int cmp_poly_compress(const unsigned char *r, const poly *a);
+
 void poly_tobytes(unsigned char *r, const poly *a);
 void poly_frombytes(poly *r, const unsigned char *a);
 

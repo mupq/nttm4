@@ -8,11 +8,14 @@ typedef struct{
   poly vec[KYBER_K];
 } polyvec;
 
+
 void polyvec_compress(unsigned char *r, const polyvec *a);
 void polyvec_decompress(polyvec *r, const unsigned char *a);
 
 void polyvec_compress_poly(unsigned char *r, const poly *p, int i);
 void polyvec_decompress_poly(poly *r, const unsigned char *a, int i);
+
+int cmp_polyvec_compress_poly(const unsigned char *r, const poly *p, int i);
 
 void polyvec_tobytes(unsigned char *r, const polyvec *a);
 void polyvec_frombytes(polyvec *r, const unsigned char *a);

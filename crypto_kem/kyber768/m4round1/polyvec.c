@@ -6,6 +6,8 @@
 
 #if (KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 352))
 
+
+
 /*************************************************
 * Name:        polyvec_compress
 *
@@ -97,6 +99,42 @@ void polyvec_decompress_poly(poly *r, const unsigned char *a, int i)
   }
 }
 
+/*************************************************
+* Name:        cmp_polyvec_compress_poly
+*
+* Description: Serialize a poly to a serialized representation polyvec,
+*              given the index of the poly in the polyvec.
+*              Compares with another polyvec in constant time
+*
+* Arguments:   - const poly *r:           pointer to output polynomial
+*              - const unsigned char *r:  pointer to input serialized polyvec byte array
+*              - int i:                   index of the polynomial to be serialized
+* Returns boolean integer whether or not polynomials of a polyvec are equal
+**************************************************/
+int cmp_polyvec_compress_poly(const unsigned char *r, const poly *p, int i)
+{
+  unsigned char rc = 0;
+  int j, k;
+  uint16_t t[8];
+  for(j=0;j<KYBER_N/8;j++)
+  {
+    for(k=0;k<8;k++)
+      t[k] = ((((uint32_t)freeze(p->coeffs[8*j+k]) << 11) + KYBER_Q/2)/ KYBER_Q) & 0x7ff;
+
+    rc |= r[352*i+11*j+ 0] ^ ( t[0] & 0xff);
+    rc |= r[352*i+11*j+ 1] ^ ((t[0] >>  8) | ((t[1] & 0x1f) << 3));
+    rc |= r[352*i+11*j+ 2] ^ ((t[1] >>  5) | ((t[2] & 0x03) << 6));
+    rc |= r[352*i+11*j+ 3] ^ ((t[2] >>  2) & 0xff);
+    rc |= r[352*i+11*j+ 4] ^ ((t[2] >> 10) | ((t[3] & 0x7f) << 1));
+    rc |= r[352*i+11*j+ 5] ^ ((t[3] >>  7) | ((t[4] & 0x0f) << 4));
+    rc |= r[352*i+11*j+ 6] ^ ((t[4] >>  4) | ((t[5] & 0x01) << 7));
+    rc |= r[352*i+11*j+ 7] ^ ((t[5] >>  1) & 0xff);
+    rc |= r[352*i+11*j+ 8] ^ ((t[5] >>  9) | ((t[6] & 0x3f) << 2));
+    rc |= r[352*i+11*j+ 9] ^ ((t[6] >>  6) | ((t[7] & 0x07) << 5));
+    rc |= r[352*i+11*j+10] ^ ((t[7] >>  3));
+  }
+  return rc;
+}
 
 #elif (KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 320))
 
