@@ -112,7 +112,7 @@ void polyvec_decompress(polyvec *r, const unsigned char *a)
 * Description: Serialize vector of polynomials
 *
 * Arguments:   - unsigned char *r: pointer to output byte array (needs space for KYBER_POLYVECBYTES)
-*              - const polyvec *a: pointer to input vector of polynomials 
+*              - const polyvec *a: pointer to input vector of polynomials
 **************************************************/
 void polyvec_tobytes(unsigned char *r, polyvec *a)
 {
@@ -191,7 +191,7 @@ void polyvec_pointwise_acc(poly *r, const polyvec *a, const polyvec *b)
 /*************************************************
 * Name:        polyvec_reduce
 *
-* Description: Applies Barrett reduction to each coefficient 
+* Description: Applies Barrett reduction to each coefficient
 *              of each element of a vector of polynomials
 *              for details of the Barrett reduction see comments in reduce.c
 *
@@ -207,7 +207,7 @@ void polyvec_reduce(polyvec *r)
 /*************************************************
 * Name:        polyvec_csubq
 *
-* Description: Applies conditional subtraction of q to each coefficient 
+* Description: Applies conditional subtraction of q to each coefficient
 *              of each element of a vector of polynomials
 *              for details of conditional subtraction of q see comments in reduce.c
 *

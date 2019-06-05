@@ -61,6 +61,34 @@ void poly_decompress(poly *r, const unsigned char *a)
 }
 
 /*************************************************
+* Name:        cmp_poly_compress
+*
+* Description: Compresses poly and compares byte string to another serialized polynomial
+*
+* Arguments:   - const unsigned char *r:     pointer to serialized polynomial to compare with
+*              - const poly *a:              pointer to input polynomial
+* Returns boolean whether serialized polynomials are equal
+**************************************************/
+int cmp_poly_compress(const unsigned char *r, const poly *a)
+{
+  unsigned char rc = 0;
+  uint32_t t[8];
+  unsigned int i,j,k=0;
+
+  for(i=0;i<KYBER_N;i+=8)
+  {
+    for(j=0;j<8;j++)
+      t[j] = (((freeze(a->coeffs[i+j]) << 3) + KYBER_Q/2)/KYBER_Q) & 7;
+
+    rc |= r[k]^(t[0]       | (t[1] << 3) | (t[2] << 6));
+    rc |= r[k+1]^((t[2] >> 2) | (t[3] << 1) | (t[4] << 4) | (t[5] << 7));
+    rc |= r[k+2]^((t[5] >> 1) | (t[6] << 2) | (t[7] << 5));
+    k += 3;
+  }
+  return rc;
+}
+
+/*************************************************
 * Name:        poly_tobytes
 *
 * Description: Serialization of a polynomial
@@ -130,7 +158,7 @@ void poly_frombytes(poly *r, const unsigned char *a)
 *              - const unsigned char *seed: pointer to input seed
 *              - unsigned char nonce:       one-byte input nonce
 **************************************************/
-void poly_getnoise(poly *r,const unsigned char *seed, unsigned char nonce)
+void poly_getnoise(poly *r, const unsigned char *seed, unsigned char nonce)
 {
   unsigned char buf[KYBER_ETA*KYBER_N/4];
   unsigned char extseed[KYBER_SYMBYTES+1];
@@ -145,8 +173,18 @@ void poly_getnoise(poly *r,const unsigned char *seed, unsigned char nonce)
   cbd(r, buf);
 }
 
-// TODO: Doc
-void poly_addnoise(poly *r,const unsigned char *seed, unsigned char nonce)
+/*************************************************
+* Name:        poly_addnoise
+*
+* Description: Sample a polynomial deterministically from a seed and a nonce,
+*              with output polynomial close to centered binomial distribution
+*              with parameter KYBER_ETA and accumulate in result polynomial.
+*
+* Arguments:   - poly *r:                   pointer to output polynomial
+*              - const unsigned char *seed: pointer to input seed
+*              - unsigned char nonce:       one-byte input nonce
+**************************************************/
+void poly_addnoise(poly *r, const unsigned char *seed, unsigned char nonce)
 {
   unsigned char buf[KYBER_ETA*KYBER_N/4];
   unsigned char extseed[KYBER_SYMBYTES+1];
