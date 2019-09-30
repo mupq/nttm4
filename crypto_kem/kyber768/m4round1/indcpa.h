@@ -9,7 +9,7 @@ void indcpa_enc(unsigned char *c,
                const unsigned char *pk,
                const unsigned char *coins);
 
-int indcpa_enc_cmp(const unsigned char *c,
+unsigned char indcpa_enc_cmp(const unsigned char *c,
                     const unsigned char *m,
                     const unsigned char *pk,
                     const unsigned char *coins);

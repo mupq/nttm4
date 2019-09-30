@@ -183,12 +183,12 @@ void indcpa_enc(unsigned char *c,
 #error "indcpa_enc_cmp needs KYBER_POLYVECCOMPRESSEDBYTES == (KYBER_K * 352)"
 #else
 
-int indcpa_enc_cmp(const unsigned char *c,
+unsigned char indcpa_enc_cmp(const unsigned char *c,
                const unsigned char *m,
                const unsigned char *pk,
                const unsigned char *coins)
 {
-  unsigned char rc;
+  uint64_t rc = 0;
   polyvec r;
   poly p;
   const unsigned char *publicseed = pk + KYBER_POLYVECCOMPRESSEDBYTES;
@@ -228,7 +228,10 @@ int indcpa_enc_cmp(const unsigned char *c,
   poly_add(&r.vec[0], &r.vec[0], &p); // add message
 
   rc |= cmp_poly_compress(c+KYBER_POLYVECCOMPRESSEDBYTES, &r.vec[0]); // compress v
-  return rc;
+
+  rc = ~rc + 1;
+  rc >>= 63;
+  return (unsigned char)rc;
 }
 #endif
 
